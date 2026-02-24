@@ -61,8 +61,14 @@ class ManualDeployer:
         registry = auth_data["proxyEndpoint"]
 
         # Docker login
-        login_cmd = f"aws ecr get-login-password --region {self.region} | docker login --username AWS --password-stdin {registry}"
-        subprocess.run(login_cmd, shell=True, check=True)
+        password = subprocess.run(
+            ["aws", "ecr", "get-login-password", "--region", self.region],
+            check=True, capture_output=True, text=True
+        ).stdout
+        subprocess.run(
+            ["docker", "login", "--username", "AWS", "--password-stdin", registry],
+            input=password, check=True, capture_output=True, text=True
+        )
 
         # Build image
         print("Building Docker image...")

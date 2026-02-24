@@ -31,7 +31,7 @@ claude-agentcore/
 ### 1. 安装依赖
 
 ```bash
-cd claude-agentcore
+cd sample-deploy-ClaudeAgentSDK-based-agents-to-AgentCore-Runtime
 pip install -r requirements.txt
 ```
 
