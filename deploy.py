@@ -89,9 +89,9 @@ def deploy():
     print("Step 2: Patching Dockerfile...")
     patch_dockerfile()
 
-    # Step 3: Launch deployment
+    # Step 3: Launch deployment (create or update existing agent)
     print("Step 3: Launching agent to AgentCore Runtime...")
-    launch_result = agentcore_runtime.launch()
+    launch_result = agentcore_runtime.launch(auto_update_on_conflict=True)
     print(f"Agent ID: {launch_result.agent_id}")
     print(f"ECR URI: {launch_result.ecr_uri}")
 

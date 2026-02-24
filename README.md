@@ -9,6 +9,7 @@ claude-agentcore/
 ├── agent.py              # Agent 主程序 (使用 Claude Agent SDK)
 ├── deploy.py             # 使用 starter toolkit 部署
 ├── deploy_manual.py      # 手动部署 (支持 CodeBuild)
+├── test_runtime.py       # Session 持久化测试脚本
 ├── Dockerfile            # 容器配置
 ├── requirements.txt      # Python 依赖
 └── README.md
@@ -68,6 +69,21 @@ response = deployer.invoke(
 )
 print(response)
 ```
+
+**测试 Session 持久化**
+
+```bash
+python test_runtime.py --agent-id <your-agent-id> --region us-east-1
+```
+
+该脚本会测试会话记忆功能，包含四个测试用例：
+
+| 测试 | 流程 | 预期结果 |
+|------|------|---------|
+| Test 1 | Session A 中告诉 agent 用户信息 | Agent 正常响应 |
+| Test 2 | Session B 中询问 agent 是否记得 | 不记得（跨 session 隔离）|
+| Test 3 | 返回 Session A 询问是否记得 | 记得（同 session 保持上下文）|
+| Test 4 | 停止 Session A 后重新调用 | 根据实现可能记得或忘记 |
 
 ### 4. 清理资源
 
